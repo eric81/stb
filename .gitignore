@@ -1,0 +1,24 @@
+# Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+#java
+*.class
+
+#java project
+class/
+target/
+.settings/
+.svn/
+javadoc/
+release/
+.project
+.classpath
+.mymetadata
+.myhibernatedata
+.myumldata
+build.log
+
+.idea
+*.iml
