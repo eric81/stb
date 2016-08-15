@@ -1,51 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration debug="true" scan="true" scanPeriod="60 seconds">
-	<appender name="alllog"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/logs/stb_all.log</file>
-
-		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
-		</encoder>
-
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>all.%d{yyyy-MM-dd}.log</fileNamePattern>
-			<maxHistory>30</maxHistory>
-		</rollingPolicy>
-	</appender>
-
-	<appender name="infolog"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/logs/stb_info.log</file>
-
-		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
-		</encoder>
-
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">
-			<level>info</level>
-			<onMatch>ACCEPT</onMatch>
-			<onMismatch>DENY</onMismatch>
-		</filter>
-
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>info.%d{yyyy-MM-dd}.log</fileNamePattern>
-		</rollingPolicy>
-	</appender>
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
 
 	<appender name="debuglog"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/logs/stb_debug.log</file>
+		<file>${LOG_PATH}/stb_debug.log</file>
 
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%class:%line] - %m%n</pattern>
 		</encoder>
-
+		
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
-			<level>debug</level>
-			<onMatch>ACCEPT</onMatch>
-			<onMismatch>DENY</onMismatch>
+			<level>error</level>
+			<onMatch>DENY</onMatch>
+			<onMismatch>ACCEPT</onMismatch>
 		</filter>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -56,7 +25,7 @@
 
 	<appender name="errorlog"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/logs/stb_error.log</file>
+		<file>${LOG_PATH}/stb_error.log</file>
 
 		<encoder>
 			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%class:%line] - %m%n</pattern>
@@ -73,8 +42,13 @@
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 	</appender>
-
-	<root level="debug">
-		<appender-ref ref="alllog" />
-	</root>
+	
+	<root level="debug"/>
+	<logger name="org.springframework.web" level="debug" />
+	<logger name="druid.sql.Statement" level="debug" />
+	<logger name="com.eudemon.taurus.app" level="debug" >
+		<appender-ref ref="debuglog" />
+		<appender-ref ref="errorlog" />
+	</logger>
+	
 </configuration>
